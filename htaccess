@@ -1,0 +1,17 @@
+# Prevent browsers/proxies from serving a stale cached copy of script.js.
+# Without this, uploading a new script.js to the server does not guarantee
+# a visitor's browser fetches it — a plain refresh can keep running old
+# cached JS, which looks like "old cards refresh/repop" even though the
+# server-side file is already fixed.
+<IfModule mod_headers.c>
+  <FilesMatch "\.js$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  <FilesMatch "\.js$">
+    ExpiresActive On
+    ExpiresDefault "access"
+  </FilesMatch>
+</IfModule>
