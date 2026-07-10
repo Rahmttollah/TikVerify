@@ -100,7 +100,9 @@
   $("#aboutBtn").addEventListener("click", () => openDialog("aboutModal"));
   $("#btnOpenCreateService").addEventListener("click", () =>
     openDialog("createServiceModal"),
-  );
+);
+    
+    
 
   $$(".app-dialog").forEach((dlg) => {
     // Close via the × button.
@@ -125,6 +127,19 @@
     state.delayMs = parseInt(settingDelay.value, 10);
     localStorage.setItem("tikverify_delay", settingDelay.value);
   });
+
+
+const settingSound = $("#settingSound");
+
+settingSound.checked =
+  localStorage.getItem("tikverify_sound") !== "0";
+
+settingSound.addEventListener("change", () => {
+  localStorage.setItem(
+    "tikverify_sound",
+    settingSound.checked ? "1" : "0"
+  );
+});
 
   // =========================================================================
   // Ripple + button micro interactions
@@ -431,8 +446,8 @@
       state.stopped ? "Stopped early" : "Batch complete",
       state.stopped ? "info" : "success",
     );
-    if ($("#settingSound").checked && !state.stopped) {
-      playChime();
+    if (settingSound.checked && !state.stopped) {
+        playChime();
     }
   }
 
@@ -886,6 +901,10 @@
     const csQtyMax = $("#csQtyMax");
     const csFixedBlock = $("#csFixedBlock");
     const csRandomBlock = $("#csRandomBlock");
+      
+    csFixedBlock.style.display = (csMode === "fixed") ? "block" : "none";
+    csRandomBlock.style.display = (csMode === "random") ? "grid" : "none";
+      
     const csHistoryPanel = $("#csHistoryPanel");
     const csHistoryList = $("#csHistoryList");
     const csHistoryEmpty = $("#csHistoryEmpty");
@@ -1150,15 +1169,18 @@
 
     // Mode toggle (Fixed / Random)
     $$(".cs-mode-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        $$(".cs-mode-btn").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        csMode = btn.dataset.mode;
-        csFixedBlock.hidden = csMode !== "fixed";
-        csRandomBlock.hidden = csMode !== "random";
-        csUpdateSummary();
-      });
-    });
+  btn.addEventListener("click", () => {
+    $$(".cs-mode-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    csMode = btn.dataset.mode;
+
+    csFixedBlock.style.display = (csMode === "fixed") ? "block" : "none";
+    csRandomBlock.style.display = (csMode === "random") ? "grid" : "none";
+
+    csUpdateSummary();
+  });
+});
 
     // Live summary on any input change
     [csServiceId, csPricePer1k, csQtyFixed, csQtyMin, csQtyMax].forEach(
@@ -1181,7 +1203,7 @@
     });
 
     // Clear / reset
-    $("#csBtnReset").addEventListener("click", () => {
+    $("#csBtnClear").addEventListener("click", () => {
       csServiceId.value = "";
       csPricePer1k.value = "";
       csQtyFixed.value = "";
@@ -1198,8 +1220,8 @@
       $$(".cs-mode-btn").forEach((b) =>
         b.classList.toggle("active", b.dataset.mode === "fixed"),
       );
-      csFixedBlock.hidden = false;
-      csRandomBlock.hidden = true;
+      csFixedBlock.style.display = "block";
+      csRandomBlock.style.display = "none";
     });
 
     // Keep the "Available Videos" count in sync as the checker runs / results change.
