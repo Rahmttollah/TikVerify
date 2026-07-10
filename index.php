@@ -300,7 +300,7 @@ $appTagline = htmlspecialchars(APP_TAGLINE, ENT_QUOTES, 'UTF-8');
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         Download TXT
       </button>
-      <button class="btn btn-ghost sm" id="csBtnReset" type="button">Clear</button>
+      <button class="btn btn-ghost sm" id="csBtnClear" type="button">Clear</button>
     </div>
 
     <!-- Live Summary -->
@@ -363,7 +363,7 @@ $appTagline = htmlspecialchars(APP_TAGLINE, ENT_QUOTES, 'UTF-8');
       <span>Lazy-load thumbnails</span>
     </label>
     <label class="field checkbox">
-      <input type="checkbox" id="settingSound">
+      <input type="checkbox" id="settingSound" checked>
       <span>Sound on completion</span>
     </label>
   </div>
